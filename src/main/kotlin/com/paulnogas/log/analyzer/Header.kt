@@ -8,6 +8,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+val labels =
+    listOf("Common Errors", "Remote Control", "Feature Control", "Guice", "Snapshots", "Crashes", "PORT 5494", "HTTP")
+
 @Composable
 fun Header(darkModeState: MutableState<Boolean>) {
     var isDarkMode by darkModeState
@@ -35,22 +38,14 @@ fun Header(darkModeState: MutableState<Boolean>) {
                 Text("Dark", fontSize = 12.sp)
 
             }
-            Row {
-                Button(onClick = {}) {
-                    Text("Filter1")
+            MyFlowRow(
+                modifier = Modifier.padding(2.dp),
+                horizontalGap = 4.dp, verticalGap = 2.dp
+            ) {
+                labels.forEach { label ->
+                    FilterButton(label)
                 }
-                Button(onClick = {}) {
-                    Text("Filter2")
-                }
-                Button(onClick = {}) {
-                    Text("Filter3")
-                }
-
             }
         }
     }
-}
-
-fun foo(newValue: Any) {
-    // no-op
 }

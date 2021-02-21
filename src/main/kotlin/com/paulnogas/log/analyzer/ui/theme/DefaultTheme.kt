@@ -5,7 +5,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
-import com.paulnogas.log.analyzer.ui.theme.DefaultShapes
 import com.paulnogas.log.analyzer.ui.theme.DefaultTypography
 
 // Themes based-on / copied from visual studio default dark and light
@@ -54,7 +53,6 @@ fun DefaultTheme(
     MaterialTheme(
         colors = if (isDarkMode) DarkColors else LightColors,
         typography = DefaultTypography,
-        shapes = DefaultShapes,
         content = content
     )
 }

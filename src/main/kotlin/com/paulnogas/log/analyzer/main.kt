@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.window.KeyStroke
@@ -23,7 +22,7 @@ fun main() {
     System.setProperty("apple.laf.useScreenMenuBar", "true")
 
     var isDarkMode = mutableStateOf(true)
-    val action = mutableStateOf("Last action: None")
+    val lastAction = mutableStateOf("")
 
     AppManager.setMenu(
         MenuBar(
@@ -31,7 +30,7 @@ fun main() {
                 name = "File",
                 MenuItem(
                     name = "Open",
-                    onClick = { action.value = "Last action: Open (Command + O)" },
+                    onClick = { lastAction.value = "Open" },
                     shortcut = KeyStroke(Key.O)
                 ),
                 MenuItem(
@@ -44,12 +43,12 @@ fun main() {
                 name = "Options",
                 MenuItem(
                     name = "Dark Mode",
-                    onClick = { action.value = "Last action: Open (Command + O)" },
+                    onClick = { lastAction.value = "DarkMode" },
                     shortcut = KeyStroke(Key.D)
                 ),
                 MenuItem(
                     name = "Load Analysis Template",
-                    onClick = { AppManager.exit() },
+                    onClick = { lastAction.value = "LoadTemplate" },
                     shortcut = KeyStroke(Key.L)
                 )
             ),
