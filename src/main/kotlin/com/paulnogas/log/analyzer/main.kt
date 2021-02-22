@@ -19,6 +19,7 @@ import kotlin.random.Random
 
 fun main() {
     val filterViewModel = FilterViewModel()
+    val searchViewModel = SearchViewModel()
     val defaultLogFilters = listOf(
         LogFilter("Filter 1", Regex(".*"), Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())),
         LogFilter("Filter 2", Regex(".*"), Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())),
@@ -78,13 +79,13 @@ fun main() {
         DefaultTheme(isDarkMode) {
             Surface(Modifier.fillMaxSize()) {
                 Column {
-                    Header(isDarkMode, filterViewModel)
+                    Header(isDarkMode, filterViewModel, searchViewModel)
                     Box(
                         Modifier.weight(1f)
                     ) {
                         Body(TempText.text)
                     }
-                    Footer()
+                    Footer(searchViewModel)
                 }
             }
         }

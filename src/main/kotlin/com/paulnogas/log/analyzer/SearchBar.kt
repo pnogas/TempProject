@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun SearchBar(
+    searchViewModel: SearchViewModel,
     modifier: Modifier = Modifier,
     textColor: Color = MaterialTheme.colors.onPrimary,
     backgroundColor: Color = MaterialTheme.colors.primaryVariant,
@@ -40,7 +41,10 @@ fun SearchBar(
             modifier = Modifier.fillMaxWidth(),
             textStyle = MaterialTheme.typography.caption.copy(color = textColor),
             value = searchText,
-            onValueChange = { searchText = it },
+            onValueChange = {
+                searchText = it
+                searchViewModel.doSearch(it)
+            },
             cursorColor = textColor,
             singleLine = true
         )

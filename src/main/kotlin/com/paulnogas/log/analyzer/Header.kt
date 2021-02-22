@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun Header(darkModeState: MutableState<Boolean>, filterViewModel: FilterViewModel) {
+fun Header(darkModeState: MutableState<Boolean>, filterViewModel: FilterViewModel, searchViewModel: SearchViewModel) {
     var isDarkMode by darkModeState
     var isRegEx by remember { mutableStateOf(false) }
     Surface(
@@ -23,6 +23,7 @@ fun Header(darkModeState: MutableState<Boolean>, filterViewModel: FilterViewMode
                 verticalAlignment = Alignment.CenterVertically,// modifier = Modifier.border(width = 1.dp, color = Color.Red)
             ) {
                 SearchBar(
+                    searchViewModel,
                     modifier = Modifier.weight(1f).padding(4.dp)
                 )
                 Spacer(modifier = Modifier.width(4.dp))
