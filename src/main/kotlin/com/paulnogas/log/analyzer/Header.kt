@@ -11,7 +11,6 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun Header(darkModeState: MutableState<Boolean>, filterViewModel: FilterViewModel) {
     var isDarkMode by darkModeState
-    var searchText by remember { mutableStateOf("") }
     var isRegEx by remember { mutableStateOf(false) }
     Surface(
         modifier = Modifier.fillMaxWidth(),

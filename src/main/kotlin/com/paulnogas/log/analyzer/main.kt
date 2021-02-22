@@ -19,19 +19,22 @@ import kotlin.random.Random
 
 fun main() {
     val filterViewModel = FilterViewModel()
-    val logFilters = listOf<LogFilter>(
+    val defaultLogFilters = listOf(
         LogFilter("Filter 1", Regex(".*"), Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())),
         LogFilter("Filter 2", Regex(".*"), Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())),
         LogFilter("Filter 3", Regex(".*"), Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())),
+    )
+    val newLogFilters = listOf(
         LogFilter("Filter 4", Regex(".*"), Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())),
         LogFilter("Filter 5", Regex(".*"), Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())),
         LogFilter("Filter 6", Regex(".*"), Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())),
         LogFilter("Filter 7", Regex(".*"), Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())),
     )
-    filterViewModel.loadFilters(logFilters)
+    filterViewModel.loadFilters(defaultLogFilters)
     // To use Apple global menu.
     System.setProperty("apple.laf.useScreenMenuBar", "true")
 
+    var x = false
     var isDarkMode = mutableStateOf(true)
     val lastAction = mutableStateOf("")
 
@@ -59,7 +62,12 @@ fun main() {
                 ),
                 MenuItem(
                     name = "Load Analysis Template",
-                    onClick = { lastAction.value = "LoadTemplate" },
+                    onClick = {
+                        x = !x
+                        if (x) filterViewModel.loadFilters(newLogFilters) else filterViewModel.loadFilters(
+                            defaultLogFilters
+                        )
+                    },
                     shortcut = KeyStroke(Key.L)
                 )
             ),

@@ -1,17 +1,23 @@
 package com.paulnogas.log.analyzer
 
-class FilterViewModel() {
-    val allFilters = mutableListOf<LogFilter>()
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+
+class FilterViewModel {
+    private val _allFilters = mutableStateOf(listOf<LogFilter>())
+    val allFilters: State<List<LogFilter>> = _allFilters
 
     fun loadFilters(newFilters: List<LogFilter>) {
-        allFilters.clear()
-        allFilters.addAll(newFilters)
+        _allFilters.value = newFilters
     }
 
     fun toggleFilterEnabled(filter: LogFilter) {
-        allFilters.first { it == filter }.run {
-            isEnabled = !isEnabled
+        _allFilters.value.run {
+            find {
+                it == filter
+            }?.apply {
+                isEnabledState.value = !isEnabledState.value
+            }
         }
-        println(allFilters.filter { it.isEnabled })
     }
 }
