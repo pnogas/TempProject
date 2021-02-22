@@ -74,7 +74,7 @@ fun main() {
                     Box(
                         Modifier.weight(1f)
                     ) {
-                        Body()
+                        Body(TempText.text)
                     }
                     Footer()
                 }
