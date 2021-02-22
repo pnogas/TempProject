@@ -24,7 +24,7 @@ fun Footer() {
             Icon(
                 Icons.Outlined.List,
                 tint = Color.Yellow.copy(alpha = 0.8f),
-                modifier = Modifier.height(toDp(MaterialTheme.typography.body2.fontSize))
+                modifier = Modifier.height(MaterialTheme.typography.body2.fontSize.toDp())
             )
             Spacer(modifier = Modifier.width(2.dp))
             Text("1", color = MaterialTheme.colors.onPrimary, style = MaterialTheme.typography.body2)
@@ -32,7 +32,7 @@ fun Footer() {
             Icon(
                 Icons.Outlined.Info,
                 tint = Color.Red.copy(alpha = 0.8f),
-                modifier = Modifier.height(toDp(MaterialTheme.typography.body2.fontSize))
+                modifier = Modifier.height(MaterialTheme.typography.body2.fontSize.toDp())
             )
             Spacer(modifier = Modifier.width(2.dp))
             Text("2", color = MaterialTheme.colors.onPrimary, style = MaterialTheme.typography.body2)

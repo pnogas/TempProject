@@ -8,11 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-val labels =
-    listOf("Common Errors", "Remote Control", "Feature Control", "Guice", "Snapshots", "Crashes", "PORT 5494", "HTTP")
-
 @Composable
-fun Header(darkModeState: MutableState<Boolean>) {
+fun Header(darkModeState: MutableState<Boolean>, filterViewModel: FilterViewModel) {
     var isDarkMode by darkModeState
     var searchText by remember { mutableStateOf("") }
     var isRegEx by remember { mutableStateOf(false) }
@@ -36,16 +33,8 @@ fun Header(darkModeState: MutableState<Boolean>) {
                 Switch(checked = isDarkMode,
                     onCheckedChange = { isDarkMode = it })
                 Text("Dark", fontSize = 12.sp)
-
             }
-            MyFlowRow(
-                modifier = Modifier.padding(2.dp),
-                horizontalGap = 4.dp, verticalGap = 2.dp
-            ) {
-                labels.forEach { label ->
-                    FilterButton(label)
-                }
-            }
+            FilterBar(filterViewModel)
         }
     }
 }

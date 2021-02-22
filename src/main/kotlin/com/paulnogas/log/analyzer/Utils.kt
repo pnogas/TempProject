@@ -6,6 +6,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 
 @Composable
-fun toDp(textUnit: TextUnit): Dp = with(AmbientDensity.current) {
-    textUnit.value.toDp()
+fun TextUnit.toDp(): Dp = convertToDp(this.value)
+
+@Composable
+fun convertToDp(value: Float): Dp {
+    return with(AmbientDensity.current) {
+        value.toDp()
+    }
 }

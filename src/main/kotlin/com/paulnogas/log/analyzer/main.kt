@@ -6,18 +6,29 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.window.KeyStroke
 import androidx.compose.ui.window.Menu
 import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.MenuItem
-import com.paulnogas.log.analyzer.Body
-import com.paulnogas.log.analyzer.Footer
-import com.paulnogas.log.analyzer.Header
+import com.paulnogas.log.analyzer.*
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
+import kotlin.random.Random
 
 fun main() {
+    val filterViewModel = FilterViewModel()
+    val logFilters = listOf<LogFilter>(
+        LogFilter("Filter 1", Regex(".*"), Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())),
+        LogFilter("Filter 2", Regex(".*"), Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())),
+        LogFilter("Filter 3", Regex(".*"), Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())),
+        LogFilter("Filter 4", Regex(".*"), Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())),
+        LogFilter("Filter 5", Regex(".*"), Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())),
+        LogFilter("Filter 6", Regex(".*"), Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())),
+        LogFilter("Filter 7", Regex(".*"), Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())),
+    )
+    filterViewModel.loadFilters(logFilters)
     // To use Apple global menu.
     System.setProperty("apple.laf.useScreenMenuBar", "true")
 
@@ -59,7 +70,7 @@ fun main() {
         DefaultTheme(isDarkMode) {
             Surface(Modifier.fillMaxSize()) {
                 Column {
-                    Header(isDarkMode)
+                    Header(isDarkMode, filterViewModel)
                     Box(
                         Modifier.weight(1f)
                     ) {

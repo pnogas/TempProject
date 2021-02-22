@@ -9,20 +9,20 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import kotlin.random.Random
 
 @Composable
-fun FilterButton(text: String) {
-    var enabled by remember { mutableStateOf(false) }
-    val buttonColor = Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())
-
+fun FilterButton(logFilter: LogFilter, onClickHandler: () -> Unit) {
+    var enabled by remember { mutableStateOf(logFilter.isEnabled) }
     Button(
-        onClick = { enabled = !enabled },
+        onClick = {
+            enabled = !enabled
+            onClickHandler()
+        },
         shape = RoundedCornerShape(2.dp),
         contentPadding = PaddingValues(start = 4.dp, end = 4.dp),
-        border = BorderStroke(2.dp, buttonColor),
-        colors = ButtonConstants.defaultButtonColors(backgroundColor = if (enabled) buttonColor else Color.Transparent)
+        border = BorderStroke(2.dp, logFilter.color),
+        colors = ButtonConstants.defaultButtonColors(backgroundColor = if (enabled) logFilter.color else Color.Transparent)
     ) {
-        Text(text)
+        Text(logFilter.name)
     }
 }
