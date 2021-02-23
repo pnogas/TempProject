@@ -6,6 +6,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.List
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,6 +16,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun Footer(searchViewModel: SearchViewModel) {
     val isLoading by searchViewModel.isLoading
+    val searchState by searchViewModel.searchTextFlow.collectAsState("")
+    println(searchState)
     val footerHeight = MaterialTheme.typography.body2.fontSize.toDp()
     Surface(
         modifier = Modifier.fillMaxWidth(),

@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 
 @Composable
 fun SearchBar(
@@ -24,6 +25,7 @@ fun SearchBar(
     backgroundColor: Color = MaterialTheme.colors.primaryVariant,
 ) {
     var searchText by remember { mutableStateOf("") }
+    val coroutineScope = rememberCoroutineScope()
     Row(
         modifier = modifier
             .background(
@@ -43,7 +45,9 @@ fun SearchBar(
             value = searchText,
             onValueChange = {
                 searchText = it
-                searchViewModel.doSearch(it)
+                coroutineScope.launch {
+                    searchViewModel.pushSearch(it)
+                }
             },
             cursorColor = textColor,
             singleLine = true

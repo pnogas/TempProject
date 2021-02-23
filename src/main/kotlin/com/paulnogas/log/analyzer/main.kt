@@ -83,7 +83,7 @@ fun main() {
                     Box(
                         Modifier.weight(1f)
                     ) {
-                        Body(TempText.text)
+                        Body(searchViewModel)
                     }
                     Footer(searchViewModel)
                 }

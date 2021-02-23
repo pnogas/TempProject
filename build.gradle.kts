@@ -22,6 +22,7 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0")
     implementation(compose.desktop.currentOs)
     implementation("io.reactivex.rxjava3:rxkotlin:3.0.1")
+//    implementation("androidx.compose.runtime:runtime-rxjava3:1.0.0-alpha10")
 }
 
 tasks.test {
@@ -29,7 +30,10 @@ tasks.test {
 }
 
 tasks.withType<KotlinCompile>() {
-    kotlinOptions.jvmTarget = "11"
+    kotlinOptions {
+        jvmTarget = "11"
+        freeCompilerArgs += "-Xuse-experimental=kotlinx.coroutines.FlowPreview"
+    }
 }
 
 compose.desktop {
