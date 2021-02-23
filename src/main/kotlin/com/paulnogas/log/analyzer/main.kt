@@ -76,6 +76,7 @@ fun main() {
     )
 
     Window(title = "Log Analyzer", icon = loadImageResource("app_icon.png")) {
+        WindowActionManager(lastAction)
         DefaultTheme(isDarkMode) {
             Surface(Modifier.fillMaxSize()) {
                 Column {
