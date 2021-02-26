@@ -1,6 +1,21 @@
 package com.paulnogas.log.analyzer
 
-object TempText {
+import androidx.compose.ui.graphics.Color
+import kotlin.random.Random
+
+object TempVars {
+    val defaultLogFilters = listOf(
+        LogFilter("Filter 1", Regex(".*"), Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())),
+        LogFilter("Filter 2", Regex(".*"), Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())),
+        LogFilter("Filter 3", Regex(".*"), Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())),
+    )
+    val newLogFilters = listOf(
+        LogFilter("Filter 4", Regex(".*"), Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())),
+        LogFilter("Filter 5", Regex(".*"), Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())),
+        LogFilter("Filter 6", Regex(".*"), Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())),
+        LogFilter("Filter 7", Regex(".*"), Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())),
+    )
+
     val text = listOf(
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         "Quisque auctor dapibus justo, eget accumsan elit viverra eget.",

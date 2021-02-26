@@ -9,8 +9,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun Header(darkModeState: MutableState<Boolean>, filterViewModel: FilterViewModel, searchViewModel: SearchViewModel) {
-    var isDarkMode by darkModeState
+fun Header(darkModeViewModel: DarkModeViewModel, filterViewModel: FilterViewModel, searchViewModel: SearchViewModel) {
     var isRegEx by remember { mutableStateOf(false) }
     Surface(
         modifier = Modifier.fillMaxWidth(),
@@ -30,8 +29,8 @@ fun Header(darkModeState: MutableState<Boolean>, filterViewModel: FilterViewMode
                 Checkbox(checked = isRegEx, onCheckedChange = { isRegEx = it })
                 Text("RegEx", fontSize = 12.sp)
                 Spacer(modifier = Modifier.width(4.dp))
-                Switch(checked = isDarkMode,
-                    onCheckedChange = { isDarkMode = it })
+                Switch(checked = darkModeViewModel.isDarkMode.value,
+                    onCheckedChange = { darkModeViewModel.toggleDarkMode() })
                 Text("Dark", fontSize = 12.sp)
             }
             FilterBar(filterViewModel)

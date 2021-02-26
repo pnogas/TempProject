@@ -2,43 +2,50 @@ package com.paulnogas.log.analyzer
 
 import androidx.compose.desktop.AppWindowAmbient
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
+import androidx.compose.runtime.remember
 import java.io.File
-import java.io.FilenameFilter
 import javax.swing.JFileChooser
 import javax.swing.filechooser.FileFilter
 
 @Composable
-fun WindowActionManager(lastAction: State<String>) {
-    if (lastAction.value == "Open") {
-        var result: File?
-        JFileChooser("C:\\Users\\pnogas").apply {
-            fileFilter = LogFileFilter()
-            showOpenDialog(AppWindowAmbient.current!!.window)
-            result = selectedFile
-        }
-        print(result)
-        /** AWT file filter doesn't work for windows, otherwise it's okay */
-//        var result: Array<File?> = arrayOf(null)
-//        FileDialog(AppWindowAmbient.current!!.window).apply {
-//            directory = "C:\\Users\\pnogas"
-//            isMultipleMode = false
-//            filenameFilter = LogFileNameFilter()
-//            isVisible = true
-//            result = files
-//        }
-//        println(result[0]?.path)
+fun WindowActionManager(
+    menuBarAction: MenuBarActions,
+    darkModeViewModel: DarkModeViewModel,
+    filterViewModel: FilterViewModel
+) {
+    println(menuBarAction)
+    when (menuBarAction) {
+        MenuBarActions.OpenFile -> openLogFile()
+        MenuBarActions.ToggleDarkMode -> toggleDarkMode(darkModeViewModel)
+        MenuBarActions.LoadFilters -> loadFilters(filterViewModel)
+        else -> {
+        } // no-op
     }
 }
 
-//class LogFileNameFilter : FilenameFilter {
-//    override fun accept(dir: File?, name: String?): Boolean {
-//        return name?.let {
-//            it.endsWith(".txt", true) ||
-//                    it.endsWith(".log", true)
-//        } ?: false
-//    }
-//}
+@Composable
+fun openLogFile() {
+    var result: File?
+    JFileChooser(System.getProperty("user.home")).apply {
+        fileFilter = LogFileFilter()
+        showOpenDialog(AppWindowAmbient.current!!.window)
+        result = selectedFile
+    }
+    print(result)
+}
+
+@Composable
+fun toggleDarkMode(darkModeViewModel: DarkModeViewModel) {
+    println("d")
+    darkModeViewModel.toggleDarkMode()
+}
+
+@Composable
+fun loadFilters(filterViewModel: FilterViewModel) {
+    remember { filterViewModel }
+    filterViewModel.loadFilters(TempVars.newLogFilters)
+}
+
 
 class LogFileFilter : FileFilter() {
     override fun accept(f: File?): Boolean {

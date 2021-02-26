@@ -4,9 +4,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.window.KeyStroke
 import androidx.compose.ui.window.Menu
@@ -15,29 +16,17 @@ import androidx.compose.ui.window.MenuItem
 import com.paulnogas.log.analyzer.*
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
-import kotlin.random.Random
 
 fun main() {
     val filterViewModel = FilterViewModel()
     val searchViewModel = SearchViewModel()
-    val defaultLogFilters = listOf(
-        LogFilter("Filter 1", Regex(".*"), Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())),
-        LogFilter("Filter 2", Regex(".*"), Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())),
-        LogFilter("Filter 3", Regex(".*"), Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())),
-    )
-    val newLogFilters = listOf(
-        LogFilter("Filter 4", Regex(".*"), Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())),
-        LogFilter("Filter 5", Regex(".*"), Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())),
-        LogFilter("Filter 6", Regex(".*"), Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())),
-        LogFilter("Filter 7", Regex(".*"), Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat())),
-    )
-    filterViewModel.loadFilters(defaultLogFilters)
+    val darkModeViewModel = DarkModeViewModel()
+
+    filterViewModel.loadFilters(TempVars.defaultLogFilters)
     // To use Apple global menu.
     System.setProperty("apple.laf.useScreenMenuBar", "true")
 
-    var x = false
-    var isDarkMode = mutableStateOf(true)
-    val lastAction = mutableStateOf("")
+    var menuBarAction by mutableStateOf(MenuBarActions.None)
 
     AppManager.setMenu(
         MenuBar(
@@ -45,7 +34,7 @@ fun main() {
                 name = "File",
                 MenuItem(
                     name = "Open",
-                    onClick = { lastAction.value = "Open" },
+                    onClick = { menuBarAction = MenuBarActions.OpenFile },
                     shortcut = KeyStroke(Key.O)
                 ),
                 MenuItem(
@@ -58,17 +47,12 @@ fun main() {
                 name = "Options",
                 MenuItem(
                     name = "Dark Mode",
-                    onClick = { lastAction.value = "DarkMode" },
+                    onClick = { menuBarAction = MenuBarActions.ToggleDarkMode },
                     shortcut = KeyStroke(Key.D)
                 ),
                 MenuItem(
-                    name = "Load Analysis Template",
-                    onClick = {
-                        x = !x
-                        if (x) filterViewModel.loadFilters(newLogFilters) else filterViewModel.loadFilters(
-                            defaultLogFilters
-                        )
-                    },
+                    name = "Load Filters",
+                    onClick = { menuBarAction = MenuBarActions.LoadFilters },
                     shortcut = KeyStroke(Key.L)
                 )
             ),
@@ -76,11 +60,12 @@ fun main() {
     )
 
     Window(title = "Log Analyzer", icon = loadImageResource("app_icon.png")) {
-        WindowActionManager(lastAction)
-        DefaultTheme(isDarkMode) {
+        println("hi")
+        WindowActionManager(menuBarAction, darkModeViewModel, filterViewModel)
+        DefaultTheme(darkModeViewModel) {
             Surface(Modifier.fillMaxSize()) {
                 Column {
-                    Header(isDarkMode, filterViewModel, searchViewModel)
+                    Header(darkModeViewModel, filterViewModel, searchViewModel)
                     Box(
                         Modifier.weight(1f)
                     ) {
