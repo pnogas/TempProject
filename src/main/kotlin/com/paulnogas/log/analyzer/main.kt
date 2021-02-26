@@ -26,7 +26,7 @@ fun main() {
     // To use Apple global menu.
     System.setProperty("apple.laf.useScreenMenuBar", "true")
 
-    var menuBarAction by mutableStateOf(MenuBarActions.None)
+    val windowActionManager = WindowActionManager(darkModeViewModel, filterViewModel)
 
     AppManager.setMenu(
         MenuBar(
@@ -34,7 +34,7 @@ fun main() {
                 name = "File",
                 MenuItem(
                     name = "Open",
-                    onClick = { menuBarAction = MenuBarActions.OpenFile },
+                    onClick = { windowActionManager.handleAction(MenuBarActions.OpenFile) },
                     shortcut = KeyStroke(Key.O)
                 ),
                 MenuItem(
@@ -47,12 +47,12 @@ fun main() {
                 name = "Options",
                 MenuItem(
                     name = "Dark Mode",
-                    onClick = { menuBarAction = MenuBarActions.ToggleDarkMode },
+                    onClick = { windowActionManager.handleAction(MenuBarActions.ToggleDarkMode) },
                     shortcut = KeyStroke(Key.D)
                 ),
                 MenuItem(
                     name = "Load Filters",
-                    onClick = { menuBarAction = MenuBarActions.LoadFilters },
+                    onClick = { windowActionManager.handleAction(MenuBarActions.LoadFilters) },
                     shortcut = KeyStroke(Key.L)
                 )
             ),
@@ -61,7 +61,6 @@ fun main() {
 
     Window(title = "Log Analyzer", icon = loadImageResource("app_icon.png")) {
         println("hi")
-        WindowActionManager(menuBarAction, darkModeViewModel, filterViewModel)
         DefaultTheme(darkModeViewModel) {
             Surface(Modifier.fillMaxSize()) {
                 Column {

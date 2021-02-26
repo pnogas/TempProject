@@ -1,51 +1,43 @@
 package com.paulnogas.log.analyzer
 
 import androidx.compose.desktop.AppWindowAmbient
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import java.io.File
 import javax.swing.JFileChooser
 import javax.swing.filechooser.FileFilter
 
-@Composable
-fun WindowActionManager(
-    menuBarAction: MenuBarActions,
-    darkModeViewModel: DarkModeViewModel,
-    filterViewModel: FilterViewModel
+class WindowActionManager(
+    private val darkModeViewModel: DarkModeViewModel,
+    private val filterViewModel: FilterViewModel
 ) {
-    println(menuBarAction)
-    when (menuBarAction) {
-        MenuBarActions.OpenFile -> openLogFile()
-        MenuBarActions.ToggleDarkMode -> toggleDarkMode(darkModeViewModel)
-        MenuBarActions.LoadFilters -> loadFilters(filterViewModel)
-        else -> {
-        } // no-op
+
+    fun handleAction(menuBarAction: MenuBarActions) {
+        when (menuBarAction) {
+            MenuBarActions.OpenFile -> openLogFile()
+            MenuBarActions.ToggleDarkMode -> toggleDarkMode()
+            MenuBarActions.LoadFilters -> loadFilters()
+            else -> {
+            } // no-op
+        }
+    }
+
+    fun openLogFile() {
+        var result: File?
+        JFileChooser(System.getProperty("user.home")).apply {
+            fileFilter = LogFileFilter()
+            showOpenDialog(null)
+            result = selectedFile
+        }
+        print(result)
+    }
+
+    fun toggleDarkMode() {
+        darkModeViewModel.toggleDarkMode()
+    }
+
+    fun loadFilters() {
+        filterViewModel.loadFilters(TempVars.newLogFilters)
     }
 }
-
-@Composable
-fun openLogFile() {
-    var result: File?
-    JFileChooser(System.getProperty("user.home")).apply {
-        fileFilter = LogFileFilter()
-        showOpenDialog(AppWindowAmbient.current!!.window)
-        result = selectedFile
-    }
-    print(result)
-}
-
-@Composable
-fun toggleDarkMode(darkModeViewModel: DarkModeViewModel) {
-    println("d")
-    darkModeViewModel.toggleDarkMode()
-}
-
-@Composable
-fun loadFilters(filterViewModel: FilterViewModel) {
-    remember { filterViewModel }
-    filterViewModel.loadFilters(TempVars.newLogFilters)
-}
-
 
 class LogFileFilter : FileFilter() {
     override fun accept(f: File?): Boolean {
